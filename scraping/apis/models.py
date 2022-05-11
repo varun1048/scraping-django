@@ -1,11 +1,12 @@
 from django.db import models
 
 # Create your models here.
-class    hamrobazaar(models.Model):
+class Product(models.Model):
     
-    ulr = models.CharField(max_length=500)
+    url = models.CharField(max_length=500)
     title = models.CharField(max_length=500)
+    price = models.CharField(max_length=20)  
     description = models.CharField(max_length=500)
-    price = models.IntegerField()  
-    mobile_number =     models.CharField(max_length=10)
+    img = models.CharField(max_length=500)
+    date =  models.DateField(auto_now_add=True)
     
