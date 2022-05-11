@@ -1,13 +1,15 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render
 from .flipkart import flipkart_prodect
 from .scraping import scrape_flipkart
 from .models import Product
 # Create your views here.
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
 def index(req):
     if req.method == 'POST':
         form = req.POST
         for product in scrape_flipkart(form['base_url'])[::-1]:
-            
             Product.objects.create(**product).save()        
             
         

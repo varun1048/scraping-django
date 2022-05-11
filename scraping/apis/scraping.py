@@ -14,6 +14,7 @@ def  scrape_flipkart(base_url)->list:
         print(f"response {response.status_code}")
         soup = BeautifulSoup(response.text, "html.parser")
     except:
+        print("Invalid URl")
         return []
 
     data = []
