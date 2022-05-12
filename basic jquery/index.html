@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jQuery.js"></script>
+</head>
+
+
+
+<body>
+
+    <div id="manipulation">
+        <h1>DOM manipulations</h1>
+
+        <div id="test">
+            <input type="text" id="test_input"  placeholder="2 +2 =">
+            <button id="test_btn" > submit</button>
+
+            <p id="result"></p>
+
+        </div>
+        
+
+
+        <p id="manipulation">dom manipulation</p>
+        <ul>
+            <li>a</li>
+            <li>b</li>
+        </ul>
+        <input id="input" type="text" value="A">
+
+        <p id="result"></p>
+    </div>
+
+
+    <div>
+        <h1> Traversing </h1>
+
+        <button id="change_color">change color</button>
+        <ul id="traversing">
+            <li>one</li>
+            <div>
+                <li>two</li>
+            </div>
+            <li>three</li>
+        </ul>
+    </div>
+
+    <div>
+        <h1>selectors</h2>
+
+            <div id="readyDemo"></div>
+
+            <h2>heading </h2>
+
+
+            <a href="https://www.google.com/" target="_blank">yahoo !</a>
+    </div>
+
+
+</body>
+
+<script>
+    $(document).ready(() => {
+
+
+
+    //DOM manipulation
+
+        //test
+            $("#manipulation").find("button[id='test_btn']").click(()=>{
+                let result = $("#manipulation").find("#test_input").val()
+                $("#manipulation").find("#test_input").val(null)
+                if (result == "4"){
+                    $("#manipulation").find("#result").text("correct answer")
+                }
+                else{
+                    $("#manipulation").find("#result").text("wrong answer is 4")
+
+                }
+            })
+
+        //alert("DOM text"+ $("#manipulation").text() )
+        let out = "Input value \t:(" +$("div[id='manipulation']").find("#input").val() +")\t"
+        out+="HTML value :\t"+$("div[id='manipulation']").find("ul").append("<li>c</li>").html()
+        $("div[id='manipulation']").children("#result").text(out)
+
+
+        
+    //traversing
+        $("#change_color").click(() => {
+            $("ul[id='traversing']").css("background", "black").find('li').css("color", "yellow")
+        })
+        
+        //selectors
+            $("#readyDemo").text("hi varun").css("color", "green").text("HI VARUN")
+            $("h2").css("background", "red").css("color", "green")
+            $("a[href='https://www.google.com/']").text("google")
+
+    })
+</script>
+
+</html>
