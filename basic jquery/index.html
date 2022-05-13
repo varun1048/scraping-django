@@ -13,8 +13,46 @@
 
 <body>
 
+    <div id="show_hide">
+        <button id="switch"></button>
+
+        <button id="toggle"> toggle</button>
+        <div id="sh">
+            balaabalaa <br>
+            balaabalaa <br>
+            balaabalaa <br>
+        </div>
+
+
+
+    </div>
+
+
+
+
+    <div id="each_loop">
+        <p id="looper">looper</p>
+    </div>
+
+
     <div id="manipulation">
         <h1>DOM manipulations</h1>
+
+        <button id="btn_main">
+            click
+        </button>
+
+        <a href="https://trip101.com/" id="change" target="_self">https://trip101.com/</a>
+
+
+        <div id="mani">
+            <p>inner</p>
+        </div>
+
+
+        <div id="add_element">
+            <a href="" target="_blank"></a>
+        </div>
 
         <div id="test">
             <input type="text" id="test_input"  placeholder="2 +2 =">
@@ -67,9 +105,48 @@
 <script>
     $(document).ready(() => {
 
+    //
+    //show & hide
+    let show_hide = $("#show_hide").find("#switch").text("Off")
+        show_hide.click(()=>{
+            if(show_hide.text() == 'Off' ){
+                $("#show_hide").find("#sh").hide(500)
+                show_hide.text("On")            
+            }
+            else{
+                $("#show_hide").find("#sh").show(500)
+                show_hide.text("Off")            
+            }
+        })
+        $("#show_hide").find("#toggle").click(()=>{
+            $("#show_hide").find("#sh").toggle(500)
+        })
+   
+
+    //each
+    $.each([1,2,3,4,5],(index,value)=>{
+        $("#each_loop").append( ` <p id="looper${index}">${value}</p> `)
+            $(this).toggleClass("text-danger");
+        
+    })
 
 
     //DOM manipulation
+
+        $("#btn_main").click(()=>{
+    
+            console.log(("a[href='https://trip101.com/']").text())
+
+            $("#mani").append("<p>appane</p>")
+        })
+
+
+        $("<a />",
+            {
+                href:'/https://trip101.com/',
+                text:"trip101.com",
+                target:"_blank"
+            }).appendTo("#add_element")
 
         //test
             $("#manipulation").find("button[id='test_btn']").click(()=>{
