@@ -3,19 +3,35 @@
 <title>Scrap flipkart</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
   integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-  function getScrape(base_url) {
-    const data = { base_url };
 
+
+<script>
+  function getScrape() {
+    let csrf_token = $("input[name='csrfmiddlewaretoken']").val()
+    console.log(csrf_token)
     $.ajax({
-      url: 'http://localhost:8000',
+      url: 'http://localhost:8000/test',
       method: "post",
-      data,
+      data: { csrfmiddlewaretoken: csrf_token, "url": $("#url").val() },
       success: function (result) {
-        $('#listenMessage').html(result.message)
+
+        $("#url").val("")
+        $("tbody[id='prodects']").html("")
+        $.each(result.list, (index, prodect) => {
+          $("tbody[id='prodects']").append(`
+            <tr>
+              <td><img class="rounded mx-auto d-block" src="${prodect.img}" alt="${prodect.title}">${prodect.date}</td>
+              <td> <a href="${prodect.url}">
+                  ${prodect.title}
+                </a>
+              </td>
+              <td>${prodect.price}</td>
+              <td>${prodect.description}</td>
+            </tr>`).hide().fadeIn("slow");
+          })
       }
+      
     })
 
 
@@ -23,9 +39,10 @@
 
   }
   $(document).ready(function () {
-    $("#url").on('change', function () {
-      console.log($(this).val())
-      setTimeout(getScrape, 3000, $(this).val())
+    //$("#url").on('change', function () {
+    $("#url").on('keyup', function () {
+      // console.log($(this).val())
+      setTimeout(getScrape, 2000,)
     })
   })
 </script>
@@ -49,15 +66,14 @@
 
 <body>
 
-  <nav class="navbar navbar-light bg-light m-3">
+  <nav class="navbar navbar-light bg-light m-3 ">
     <div class="container-fluid">
-      <div class="navbar-brand">Scraping lsit {{ scraped_products|length }}</div>
-      <form class="d-flex" style="width: 50%;" method="post" action="/">
-        {% csrf_token %}
-        <!-- <input  type="search" placeholder="URL" aria-label="Search" name="base_url"> -->
+      <div class="navbar-brand">Scraping list <p id="list_len"></p>
+      </div>
+      {% csrf_token %}
+      <div class="d-flex">
         <input class="form-control me-2" id="url" type="text" placeholder="Enter the URL" name="base_url" />
-        <!-- <button class=" btn btn-outline-success" type="submit">search</button> -->
-      </form>
+      </div>
     </div>
   </nav>
 
@@ -66,27 +82,17 @@
 
 
     <table class="table">
-      <thead>
+      <thead class="text-center">
         <tr>
-          <th scope="col"></th>
+          <th scope="col">Image</th>
           <th scope="col">Title</th>
           <th scope="col">Price</th>
           <th scope="col">Description</th>
         </tr>
       </thead>
 
-      <tbody>
-        {%for prodect in scraped_products%}
-        <tr>
-          <td><img class="rounded mx-auto d-block" src="{{prodect.img}}" alt="{{prodect.title}}">{{prodect.date}}</td>
-          <td> <a href="{{prodect.url}}">
-              {{prodect.title}}
-            </a>
-          </td>
-          <td>{{prodect.price}}</td>
-          <td>{{prodect.description}}</td>
-        </tr>
-        {%endfor%}
+      <tbody id="prodects">
+
       </tbody>
     </table>
 
