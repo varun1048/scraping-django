@@ -11,17 +11,18 @@
     let csrf_token = $("input[name='csrfmiddlewaretoken']").val()
     console.log(csrf_token)
     $.ajax({
-      url: 'http://localhost:8000/test',
+      url: 'http://localhost:8000/',
       method: "post",
       data: { csrfmiddlewaretoken: csrf_token, "url": $("#url").val() },
       success: function (result) {
 
         $("#url").val("")
         $("tbody[id='prodects']").html("")
+        
         $.each(result.list, (index, prodect) => {
           $("tbody[id='prodects']").append(`
             <tr>
-              <td><img class="rounded mx-auto d-block" src="${prodect.img}" alt="${prodect.title}">${prodect.date}</td>
+              <td><img class="rounded mx-auto d-block" src="${prodect.image}" alt="${prodect.title}">${prodect.date}</td>
               <td> <a href="${prodect.url}">
                   ${prodect.title}
                 </a>
