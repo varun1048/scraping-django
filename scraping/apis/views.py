@@ -46,5 +46,12 @@ class IndexView(View):
     def post(self,req ,*args, **kwargs):
         url =  req.POST.get("url")
         result = flipkartScraping(url)
+        for product in result[::-1]:
+            Product.objects.create(**product)
         return JsonResponse({"list":result},status=200)
-        
+
+class ProductsView(View):
+    def get(self ,req,):
+        scraped_products = Product.objects.all()[::-1]
+        return render(req,"products.html",{  "scraped_products":scraped_products })
+

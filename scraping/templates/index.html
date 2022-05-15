@@ -8,31 +8,59 @@
 
 <script>
   function getScrape() {
+
     let csrf_token = $("input[name='csrfmiddlewaretoken']").val()
-    console.log(csrf_token)
     $.ajax({
       url: 'http://localhost:8000/',
       method: "post",
       data: { csrfmiddlewaretoken: csrf_token, "url": $("#url").val() },
-      success: function (result) {
+      success: (result) => {
 
         $("#url").val("")
         $("tbody[id='prodects']").html("")
-        
+
         $.each(result.list, (index, prodect) => {
-          $("tbody[id='prodects']").append(`
-            <tr>
-              <td><img class="rounded mx-auto d-block" src="${prodect.image}" alt="${prodect.title}">${prodect.date}</td>
-              <td> <a href="${prodect.url}">
-                  ${prodect.title}
-                </a>
-              </td>
-              <td>${prodect.price}</td>
-              <td>${prodect.description}</td>
-            </tr>`).hide().fadeIn("slow");
-          })
+          $("div[id='prodects']").append(`
+
+
+
+            
+
+
+            <div class="card mb-3 m-3 p-1" style="max-width: 540px;">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="${prodect.image}" class="img-fluid rounded-start" alt="${prodect.title}">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="${prodect.url}" target="_blank" class="card-link">${prodect.title}</a></h5>
+
+                      <p class="card-text">${prodect.description}</p>
+                    <h4> ${prodect.price} </h4>
+                    <p class="card-text"><small class="text-muted">Last updated ${prodect.date}</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+            `).hide().fadeIn("slow");
+        })
       }
-      
+
     })
 
 
@@ -43,7 +71,7 @@
     //$("#url").on('change', function () {
     $("#url").on('keyup', function () {
       // console.log($(this).val())
-      setTimeout(getScrape, 2000,)
+      setTimeout(getScrape,100)
     })
   })
 </script>
@@ -59,7 +87,7 @@
 
 <style>
   img {
-    height: 100px;
+    height: auto;
     width: auto;
     background-color: powderblue;
   }
@@ -67,39 +95,74 @@
 
 <body>
 
-  <nav class="navbar navbar-light bg-light m-3 ">
+
+
+
+  <nav class="navbar navbar-expand-lg  navbar-dark bg-primary ">
     <div class="container-fluid">
-      <div class="navbar-brand">Scraping list <p id="list_len"></p>
-      </div>
-      {% csrf_token %}
-      <div class="d-flex">
-        <input class="form-control me-2" id="url" type="text" placeholder="Enter the URL" name="base_url" />
-      </div>
+       <a class="navbar-brand" href="/">Scrap flipkart</a>
+
+    <div class="d-flex">
+      <a class="nav-link text-light "  aria-current="page" href="/products">Products</a>    
+    </div>
     </div>
   </nav>
+
+
+
+
+
+<!-- 
+  <nav class="navbar navbar-expand-lg  navbar-dark bg-primary ">
+    <div class="container-fluid">
+
+      <a class="navbar-brand" href="/">Scrap flipkart</a>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active"  aria-current="page" href="/products">products</a>
+          </li>
+        </ul>
+        <div class="d-flex">
+
+          <input class="form-control me-2" type="search" id="url" placeholder="Enter the URL">
+        </div>
+      </div>
+    </div>
+  </nav> -->
+
+  <div class="d-flex justify-content-center m-2">
+    
+    <div style="width: 40%;">
+      {% csrf_token %}
+      <input class="form-control text-center"   id="url" placeholder="Enter the URL">
+    </div>
+    
+  </div>
+
+
+
+
+
+
+
+
+
 
 
   <div class="container">
 
 
-    <table class="table">
-      <thead class="text-center">
-        <tr>
-          <th scope="col">Image</th>
-          <th scope="col">Title</th>
-          <th scope="col">Price</th>
-          <th scope="col">Description</th>
-        </tr>
-      </thead>
 
-      <tbody id="prodects">
+    <div class="row" id="prodects">
 
-      </tbody>
-    </table>
 
+
+    </div>
 
   </div>
 
 </body>
+
 
 </html>

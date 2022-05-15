@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
-from .views import IndexView
+from .views import IndexView,ProductsView
 # urlpatterns = [
 #     path('', views.index),
 #     path('product', views.product),           
@@ -12,5 +12,5 @@ from .views import IndexView
 
 urlpatterns = [
     path('', IndexView.as_view(),name="index"),
-
+    path("products",ProductsView.as_view(),name="products")
 ]

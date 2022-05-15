@@ -7,6 +7,6 @@ class Product(models.Model):
     title = models.CharField(max_length=500)
     price = models.CharField(max_length=20)  
     description = models.CharField(max_length=500)
-    img = models.CharField(max_length=500)
+    image = models.CharField(max_length=500)
     date =  models.DateField(auto_now_add=True)
     
