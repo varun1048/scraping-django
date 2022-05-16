@@ -46,7 +46,7 @@
           </thead>
     
           <tbody id="prodects">
-              {%for product in scraped_products%}
+              {%for product in object_list %}
               <tr>
                   <td><img class="rounded mx-auto d-block" src="{{product.image}}" alt="{{product.title}}">{{product.date}}</td>
                   <td> <a href="{{product.url}}">

@@ -16,7 +16,6 @@
       data: { csrfmiddlewaretoken: csrf_token, "url": $("#url").val() },
       success: (result) => {
 
-        $("#url").val("")
         $("tbody[id='prodects']").html("")
 
         $.each(result.list, (index, prodect) => {
@@ -59,8 +58,15 @@
 
             `).hide().fadeIn("slow");
         })
-      }
+      },
+      error:(error)=>{
+        console.log(error)
+        if (error.responseJSON.error ){
 
+          alert(error.responseJSON.message)
+        }
+
+      }
     })
 
 
@@ -68,8 +74,8 @@
 
   }
   $(document).ready(function () {
-    //$("#url").on('change', function () {
-    $("#url").on('keyup', function () {
+    $("#url").on('change', function () {
+    //$("#url").on('keyup', function () {
       // console.log($(this).val())
       setTimeout(getScrape,100)
     })
@@ -109,27 +115,6 @@
   </nav>
 
 
-
-
-
-<!-- 
-  <nav class="navbar navbar-expand-lg  navbar-dark bg-primary ">
-    <div class="container-fluid">
-
-      <a class="navbar-brand" href="/">Scrap flipkart</a>
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active"  aria-current="page" href="/products">products</a>
-          </li>
-        </ul>
-        <div class="d-flex">
-
-          <input class="form-control me-2" type="search" id="url" placeholder="Enter the URL">
-        </div>
-      </div>
-    </div>
-  </nav> -->
 
   <div class="d-flex justify-content-center m-2">
     

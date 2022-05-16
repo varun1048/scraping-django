@@ -1,7 +1,6 @@
 from .constant import flipkart, FlipkartLiterals, Scrap
 from bs4 import BeautifulSoup, Tag, NavigableString
 from .constant import get_url
-
 def getTextFromSoup(soup):
     if(soup):
         return soup.text

@@ -1,57 +1,35 @@
+from email import message
+from urllib.error import HTTPError
 from django.shortcuts import render,HttpResponse
 from .models import Product
 from .soup.flipkartSoup import flipkartScraping
 from django.http import JsonResponse
-
-
-# def index(req):
-#     if req.method == 'POST':
-#         form = req.POST
-#         for product in flipkartScraping(form['base_url'])[::-1]:
-#             Product.objects.create(**product).save()        
-            
-        
-#     scraped_products = Product.objects.all()[::-1]
-#     return render(req,"index.html",{
-#         "scraped_products":scraped_products
-#         })  
-
-
-
-
-# def product(req):
-#     data = {}
-#     if req.method == 'POST':
-#         form = req.POST
-#         data = flipkartScraping(form['base_url'])
-#         print(data['error'])        
-        
-#     return render(req,"product.html",data)
-
-# def test(req):
-#     if req.method == 'POST':
-#         url =  req.POST.get("url")
-        
-#         result = flipkartScraping(url)
-
-#         return JsonResponse({"list":result},status=200)
-    
-
-
+from django.views.generic import ListView
+from django.views.decorators.csrf import csrf_exempt
 from django.views import View
+
+from urllib.parse import urlparse
+
+from .constant import SupportedDomains
 class IndexView(View):
+    @csrf_exempt
     def get(self ,req, *args, **kwargs):
         return render(req,"index.html")
-
+    
+    @csrf_exempt
     def post(self,req ,*args, **kwargs):
         url =  req.POST.get("url")
-        result = flipkartScraping(url)
-        for product in result[::-1]:
-            Product.objects.create(**product)
-        return JsonResponse({"list":result},status=200)
+        parsed_url = urlparse(url)
+        if parsed_url.netloc.find(SupportedDomains.FLIPKART.value) != -1:
+            result = flipkartScraping(url)
+            for product in result[::-1]:
+                Product.objects.create(**product)
+            return JsonResponse({"list":result},status=200)
+        else:
+            return JsonResponse({"error":True,"message":"UnSupported URL. We support only flipkart."},status=404)
 
-class ProductsView(View):
-    def get(self ,req,):
-        scraped_products = Product.objects.all()[::-1]
-        return render(req,"products.html",{  "scraped_products":scraped_products })
+class ProductList(ListView):
+    model = Product
+
+
 

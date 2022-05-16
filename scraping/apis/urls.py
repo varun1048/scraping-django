@@ -1,16 +1,9 @@
-from django.contrib import admin
 from django.urls import path
-from . import views
 
-from .views import IndexView,ProductsView
-# urlpatterns = [
-#     path('', views.index),
-#     path('product', views.product),           
-#     path('test', views.test),           
-# ]
 
+from .views import IndexView,ProductList
 
 urlpatterns = [
     path('', IndexView.as_view(),name="index"),
-    path("products",ProductsView.as_view(),name="products")
+    path("products",ProductList.as_view(),name="products")
 ]
