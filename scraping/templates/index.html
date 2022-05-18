@@ -11,8 +11,9 @@
 
     let csrf_token = $("input[name='csrfmiddlewaretoken']").val()
     $.ajax({
-      url: 'http://localhost:8000/',
+      url: 'http://localhost:8000/scraping',
       method: "post",
+      dataType: 'json',
       data: { csrfmiddlewaretoken: csrf_token, "url": $("#url").val() },
       success: (result) => {
 
@@ -74,8 +75,8 @@
 
   }
   $(document).ready(function () {
-    $("#url").on('change', function () {
-    //$("#url").on('keyup', function () {
+    //$("#url").on('change', function () {
+    $("#url").on('keyup', function () {
       // console.log($(this).val())
       setTimeout(getScrape,100)
     })

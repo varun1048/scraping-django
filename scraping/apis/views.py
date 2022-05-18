@@ -12,17 +12,14 @@ from urllib.parse import urlparse
 
 from .constant import SupportedDomains
 class IndexView(View):
-    @csrf_exempt
-    def get(self ,req, *args, **kwargs):
-        return render(req,"index.html")
-    
+   
     @csrf_exempt
     def post(self,req ,*args, **kwargs):
         url =  req.POST.get("url")
         parsed_url = urlparse(url)
         if parsed_url.netloc.find(SupportedDomains.FLIPKART.value) != -1:
             result = flipkartScraping(url)
-            for product in result[::-1]:
+            for product in result:
                 Product.objects.create(**product)
             return JsonResponse({"list":result},status=200)
         else:
