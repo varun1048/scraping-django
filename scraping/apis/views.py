@@ -1,12 +1,12 @@
-from email import message
-from urllib.error import HTTPError
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render
 from .models import Product
 from .soup.flipkartSoup import flipkartScraping
 from django.http import JsonResponse
 from django.views.generic import ListView
+from django.views.generic.detail import DetailView
 from django.views.decorators.csrf import csrf_exempt
 from django.views import View
+from django.views.generic.edit import DeleteView
 
 from urllib.parse import urlparse
 
@@ -28,8 +28,19 @@ class IndexView(View):
         else:
             return JsonResponse({"error":True,"message":"UnSupported URL. We support only flipkart."},status=404)
 
+
 class ProductList(ListView):
     model = Product
 
+
+
+class ProductDetail(DetailView):
+    model = Product
+    
+
+class ProductDelete(DeleteView):
+    model = Product
+    success_url ="/"
+    
 
 
