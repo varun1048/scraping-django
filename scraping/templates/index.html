@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html>
-<title>Scrap flipkart</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% extends "base.html" %}
 
+{% block content %}
 
 <script>
   function getScrape() {
@@ -38,7 +34,7 @@
 
                       <p class="card-text">${prodect.description}</p>
                     <h4> ${prodect.price} </h4>
-                    <p class="card-text"><small class="text-muted">Last updated ${prodect.date}</small></p>
+                   
                   </div>
                 </div>
               </div>
@@ -60,9 +56,9 @@
             `).hide().fadeIn("slow");
         })
       },
-      error:(error)=>{
+      error: (error) => {
         console.log(error)
-        if (error.responseJSON.error ){
+        if (error.responseJSON.error) {
 
           alert(error.responseJSON.message)
         }
@@ -78,77 +74,35 @@
     //$("#url").on('change', function () {
     $("#url").on('keyup', function () {
       // console.log($(this).val())
-      setTimeout(getScrape,100)
+      setTimeout(getScrape, 100)
     })
   })
 </script>
 
-<body>
-  <div>
-
-  </div>
-  <div id="listenMessage"></div>
-</body>
-
-</html>
-
-<style>
-  img {
-    height: auto;
-    width: auto;
-    background-color: powderblue;
-  }
-</style>
-
-<body>
 
 
+<div class="d-flex justify-content-center m-2">
 
-
-  <nav class="navbar navbar-expand-lg  navbar-dark bg-primary ">
-    <div class="container-fluid">
-       <a class="navbar-brand" href="/">Scrap flipkart</a>
-
-    <div class="d-flex">
-      <a class="nav-link text-light "  aria-current="page" href="/products">Products</a>    
-    </div>
-    </div>
-  </nav>
-
-
-
-  <div class="d-flex justify-content-center m-2">
-    
-    <div style="width: 40%;">
-      {% csrf_token %}
-      <input class="form-control text-center"   id="url" placeholder="Enter the URL">
-    </div>
-    
+  <div style="width: 40%;">
+    {% csrf_token %}
+    <input class="form-control text-center" id="url" placeholder="Enter the URL">
   </div>
 
+</div>
 
 
 
 
+<div class="container">
 
 
 
+  <div class="row" id="prodects">
 
 
-
-  <div class="container">
-
-
-
-    <div class="row" id="prodects">
-
-
-
-    </div>
 
   </div>
 
-</body>
+</div>
 
-
-</html>
+{% endblock %}
